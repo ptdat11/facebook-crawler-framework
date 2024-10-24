@@ -108,8 +108,7 @@ class Crawler(BaseCrawler):
         )
         self.max_ram_percentage = max_ram_percentage
         self.page_id = page_id
-        for step in self.data_pipeline.steps:
-            step.set_path_format(page_id=page_id)
+        self.set_pipeline_path_format(page_id=page_id)
 
     def on_parse_error(self):
         self.post_collect_criteria.reset()

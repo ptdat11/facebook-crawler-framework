@@ -109,11 +109,14 @@ class BaseCrawler:
             self.chrome.close()
         self.chrome.switch_to.window(self.main_tab)
 
+    def set_pipeline_path_format(self, **format_kwargs):
+        for step in self.data_pipeline.steps:
+            step.set_path_format(**format_kwargs)
+
     def set_crawler_dir(self, crawler_dir: str, data_pipeline: Pipeline):
-        for step in data_pipeline.steps:
-            step.set_path_format(crawler_dir=crawler_dir)
         self.crawler_dir = crawler_dir
         self.data_pipeline = data_pipeline
+        self.set_pipeline_path_format(crawler_dir=crawler_dir)
 
     def sleep(self):
         sleep_second = weibull_min.rvs(10, loc=0, scale=self.sleep_weibull_lambda)
